@@ -1,9 +1,17 @@
+using Microsoft.EntityFrameworkCore;
 using projeto_pizza_api;
+using projeto_pizza_api.DataBase;
 using projeto_pizza_api.DI;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+var jamil = builder.Configuration.GetConnectionString("PizzaDB");
+
+builder.Services.AddDbContextFactory<PizzaDBContext>(
+    options => options.UseSqlServer(builder.Configuration.GetConnectionString("PizzaDB"))
+);
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
