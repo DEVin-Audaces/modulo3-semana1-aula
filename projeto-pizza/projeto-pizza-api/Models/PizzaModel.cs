@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace projeto_pizza_api
+namespace projeto_pizza_api.Models
 {
     [Table("Pizza")]
     public class PizzaModel
@@ -12,7 +12,7 @@ namespace projeto_pizza_api
 
         [MaxLength(50)]
         public string Descricao { get; set; }
-        
+
         public decimal Valor { get; set; }
     }
 }

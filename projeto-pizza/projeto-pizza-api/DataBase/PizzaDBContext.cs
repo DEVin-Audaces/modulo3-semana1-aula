@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using projeto_pizza_api.Models;
 
 namespace projeto_pizza_api.DataBase
 {

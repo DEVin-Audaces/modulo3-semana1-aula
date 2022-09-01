@@ -2,6 +2,8 @@ using Microsoft.EntityFrameworkCore;
 using projeto_pizza_api;
 using projeto_pizza_api.DataBase;
 using projeto_pizza_api.DI;
+using projeto_pizza_api.Models;
+using projeto_pizza_api.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,6 +25,8 @@ builder.Services
     .AddScoped<IScopedExemploService, ScopedExemploService>()
     .AddSingleton<ISingletonExemploService, SingletonExemploService>()
     .AddScoped<ITesteService, TesteService>();
+
+builder.Services.AddScoped<IPizzaRepository<PizzaModel>, PizzaRepository>();
 
 var app = builder.Build();
 

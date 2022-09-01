@@ -1,12 +1,21 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using projeto_pizza_api.Models;
+using projeto_pizza_api.Repositories;
 
 namespace projeto_pizza_api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ExemplosController : ControllerBase
+    public class PizzaController : ControllerBase
     {
         private static List<PizzaDto> minhaLista = new();
+
+        private readonly IPizzaRepository<PizzaModel> _pizzaRepository;
+
+        public PizzaController(IPizzaRepository<PizzaModel> pizzaRepository)
+        {
+            _pizzaRepository = pizzaRepository;
+        }
 
         [HttpGet]
         public IEnumerable<PizzaDto> Get()
@@ -19,6 +28,9 @@ namespace projeto_pizza_api.Controllers
         {
             var pizza = new PizzaDto(codigo) { Nome = nome };
             minhaLista.Add(pizza);
+
+            _pizzaRepository.Add(new PizzaModel { Descricao = "TESTE", Valor = 10M });
+
             return pizza ;
         }
 
