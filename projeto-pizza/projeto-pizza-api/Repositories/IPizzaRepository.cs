@@ -7,8 +7,9 @@ namespace projeto_pizza_api.Repositories
     public interface IEntity<TModel>
     {
         int Add(TModel model);
-        int Update(TModel model);
-        int Delete(TModel model);
+        bool Update(TModel model);
+        bool Delete(int id);
+        IList<TModel> GetAll();
     }
 
     public interface IPizzaRepository<TEntity> : IEntity<TEntity>
@@ -41,25 +42,30 @@ namespace projeto_pizza_api.Repositories
             throw new NotImplementedException();
         }
 
-        public int Delete(PizzaModel model)
+        public bool Update(PizzaModel model)
         {
-            throw new NotImplementedException();
+            using (var context = _dbContextFactory.CreateDbContext())
+            {
+                context.Update(model);
+                return context.SaveChanges() > 0;
+            }
         }
 
-        public int Update(PizzaModel model)
+        public bool Delete(int id)
         {
-            throw new NotImplementedException();
+            using (var context = _dbContextFactory.CreateDbContext())
+            {
+                context.Remove<PizzaModel>(new PizzaModel { Id = id });
+                return context.SaveChanges() > 0;
+            }
+        }
+
+        public IList<PizzaModel> GetAll()
+        {
+            using (var context = _dbContextFactory.CreateDbContext())
+            {
+                return context.Pizza.ToList();
+            }
         }
     }
-
-    //TODO: Depois aplicar uma classe abrastct
-    //public abstract class MinhaClasseAbstract<TContext> : class
-    //{
-    //    private readonly IDbContextFactory<TContext> _dbContextFactory;
-
-    //    public MinhaClasseAbstract(TContext context)
-    //    {
-    //        _dbContextFactory = context;
-    //    }
-    //}
 }

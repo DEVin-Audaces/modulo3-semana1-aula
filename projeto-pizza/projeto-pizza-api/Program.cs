@@ -4,6 +4,7 @@ using projeto_pizza_api.DataBase;
 using projeto_pizza_api.DI;
 using projeto_pizza_api.Models;
 using projeto_pizza_api.Repositories;
+using projeto_pizza_api.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,6 +27,11 @@ builder.Services
     .AddSingleton<ISingletonExemploService, SingletonExemploService>()
     .AddScoped<ITesteService, TesteService>();
 
+
+//DI Para Services
+builder.Services.AddScoped<IPizzaService, PizzaService>();
+
+//DI Para Repositories
 builder.Services.AddScoped<IPizzaRepository<PizzaModel>, PizzaRepository>();
 
 var app = builder.Build();

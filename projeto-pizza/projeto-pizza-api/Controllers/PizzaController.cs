@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using projeto_pizza_api.Models;
-using projeto_pizza_api.Repositories;
+using projeto_pizza_api.DTO;
+using projeto_pizza_api.Services;
 
 namespace projeto_pizza_api.Controllers
 {
@@ -8,44 +8,65 @@ namespace projeto_pizza_api.Controllers
     [ApiController]
     public class PizzaController : ControllerBase
     {
-        private static List<PizzaDto> minhaLista = new();
+        private readonly IPizzaService _pizzaService;
 
-        private readonly IPizzaRepository<PizzaModel> _pizzaRepository;
-
-        public PizzaController(IPizzaRepository<PizzaModel> pizzaRepository)
+        public PizzaController(IPizzaService pizzaService)
         {
-            _pizzaRepository = pizzaRepository;
+            _pizzaService = pizzaService;
         }
 
         [HttpGet]
-        public IEnumerable<PizzaDto> Get()
+        public ActionResult<IList<PizzaGetDto>> Get()
         {
-            return minhaLista; 
+            try
+            {
+                return Ok(_pizzaService.GetAll());
+            }
+            catch (Exception ex)
+            {
+                return NotFound(ex);
+            }
         }
 
-        [HttpPost("post/{codigo}/{nome}")]
-        public PizzaDto Post([FromRoute] int codigo, [FromRoute] string nome) 
+        [HttpDelete("/{id}")]
+        public IActionResult Delete([FromRoute] int id)
         {
-            var pizza = new PizzaDto(codigo) { Nome = nome };
-            minhaLista.Add(pizza);
-
-            _pizzaRepository.Add(new PizzaModel { Descricao = "TESTE", Valor = 10M });
-
-            return pizza ;
+            try
+            {
+                return Ok(_pizzaService.Delete(id));
+            }
+            catch (Exception ex)
+            {
+                return NotFound(ex);
+            }
         }
 
-        [HttpPut("put/{nome}")]
-        public PizzaDto Put([FromQuery] int codigo, [FromRoute] string nome)
-        {
-            var pizza = minhaLista.Where(w => w.Codigo == codigo).FirstOrDefault();
-            pizza!.Nome = nome;
-            return pizza;
-        }
-    }
 
-    public record PizzaDto(int Codigo)
-    {
-        public string Nome { get; set; } = "";
-        public bool Validar(string parametro) => Nome == parametro;
+        [HttpPost]
+        public ActionResult<PizzaPostDto> Post(PizzaPostDto request)
+        {
+            try
+            {
+                var returns = _pizzaService.Add(request);
+                return request;
+            }
+            catch (Exception ex)
+            {
+                return NotFound(ex);
+            }
+        }
+
+        [HttpPut]
+        public ActionResult<bool> Put(PizzaPutDto request)
+        {
+            try
+            {
+                return _pizzaService.Update(request);
+            }
+            catch (Exception ex)
+            {
+                return NotFound(ex);
+            }
+        }
     }
 }
