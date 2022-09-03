@@ -11,5 +11,6 @@ namespace projeto_pizza_api.DataBase
         }
 
         public DbSet<PizzaModel> Pizza { get; set; }
+        public DbSet<PizzaGuidModel> PizzaGuid { get; set; }
     }
 }

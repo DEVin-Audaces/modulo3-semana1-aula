@@ -48,7 +48,7 @@ namespace projeto_pizza_api.Controllers
             try
             {
                 var returns = _pizzaService.Add(request);
-                return request;
+                return Ok(request);
             }
             catch (Exception ex)
             {
@@ -61,7 +61,7 @@ namespace projeto_pizza_api.Controllers
         {
             try
             {
-                return _pizzaService.Update(request);
+                return Ok(_pizzaService.Update(request));
             }
             catch (Exception ex)
             {

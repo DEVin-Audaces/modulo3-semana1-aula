@@ -10,8 +10,6 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-var jamil = builder.Configuration.GetConnectionString("PizzaDB");
-
 builder.Services.AddDbContextFactory<PizzaDBContext>(
     options => options.UseSqlServer(builder.Configuration.GetConnectionString("PizzaDB"))
 );

@@ -4,6 +4,10 @@ using projeto_pizza_api.Repositories;
 
 namespace projeto_pizza_api.Services
 {
+
+    /// <summary>
+    /// Regra de Negocio fica na camada de Servico
+    /// </summary>
     public class PizzaService : IPizzaService
     {
         private readonly IPizzaRepository<PizzaModel> _pizzaRepository;
@@ -33,6 +37,44 @@ namespace projeto_pizza_api.Services
             return returns;
         }
 
+        public PizzaMaisCaraGetDto GetMaxValue()
+        {
+            List<PizzaModel> pizzaModel = _pizzaRepository.GetAll().ToList();
+
+            var valorMaximoPizza = pizzaModel.Select(s => s.Valor).Max();
+
+            var pizzaMax = pizzaModel
+                                .GroupBy(g => g.Valor)
+                                .Where(w => w.Key == valorMaximoPizza)
+                                .Select(s =>
+                                        new PizzaMaisCaraGetDto(
+                                            s.FirstOrDefault()!.Id,
+                                            s.FirstOrDefault()!.Descricao,
+                                            s.FirstOrDefault()!.Valor)
+                                    ).FirstOrDefault()!;
+
+            return pizzaMax;
+        }
+
+        public PizzaMaisBarataGetDto GetMinValue()
+        {
+            List<PizzaModel> pizzaModel = _pizzaRepository.GetAll().ToList();
+
+            var valorMinimoPizza = pizzaModel.Select(s => s.Valor).Min();
+
+            var pizzaMin = pizzaModel
+                                .GroupBy(g => g.Valor)
+                                .Where(w => w.Key == valorMinimoPizza)
+                                .Select(s =>
+                                        new PizzaMaisBarataGetDto(
+                                            s.FirstOrDefault()!.Id,
+                                            s.FirstOrDefault()!.Descricao,
+                                            s.FirstOrDefault()!.Valor)
+                                    ).FirstOrDefault()!;
+
+            return pizzaMin;
+        }
+
         public bool Update(PizzaPutDto pizzaPutDto)
         {
             var model = new PizzaModel
@@ -44,13 +86,5 @@ namespace projeto_pizza_api.Services
 
             return _pizzaRepository.Update(model);
         }
-    }
-
-    public interface IPizzaService
-    {
-        int Add(PizzaPostDto pizzaPostDto);
-        bool Update(PizzaPutDto pizzaPutDto);
-        bool Delete(int id);
-        IList<PizzaGetDto> GetAll();
     }
 }
