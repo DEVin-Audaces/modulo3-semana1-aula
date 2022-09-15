@@ -7,7 +7,6 @@ namespace projeto_pizza_api.DataBase
     {
         public PizzaDBContext(DbContextOptions<PizzaDBContext> options) : base(options)
         {
-
         }
 
         public DbSet<PizzaModel> Pizza { get; set; }
