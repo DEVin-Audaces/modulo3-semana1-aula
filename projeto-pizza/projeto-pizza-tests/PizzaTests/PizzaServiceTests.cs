@@ -59,7 +59,14 @@ namespace projeto_pizza_tests.PizzaTests
                 new PizzaModel { Id = 1, Descricao = "teste 1", Valor = 45 },
                 new PizzaModel { Id = 2, Descricao = "teste 2", Valor = 12 },
                 new PizzaModel { Id = 3, Descricao = "teste 3", Valor = 78 },
-                new PizzaModel { Id = 4, Descricao = "teste 4", Valor = 33 }
+                new PizzaModel { Id = 4, Descricao = "teste 4", Valor = 33 },
+                new PizzaModel { Id = 65, Descricao = "teste 65", Valor = 1 },
+                new PizzaModel { Id = 777, Descricao = "teste 777", Valor = 876 },
+                new PizzaModel { Id = 2345, Descricao = "teste 2345", Valor = 6577 },
+                new PizzaModel { Id = 5, Descricao = "teste 5", Valor = 33 },
+                new PizzaModel { Id = 8, Descricao = "teste 8", Valor = 55 },
+                new PizzaModel { Id = 9, Descricao = "teste 9", Valor = 1 },
+                new PizzaModel { Id = 11, Descricao = "teste 11", Valor = 65 },
             };
 
             mockPizzaRepository.Setup(s => s.GetAll()).Returns(listaRepoReturns);
