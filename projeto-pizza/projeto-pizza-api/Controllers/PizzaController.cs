@@ -48,6 +48,7 @@ namespace projeto_pizza_api.Controllers
             try
             {
                 var returns = _pizzaService.Add(request);
+                request.IdGerado = returns;
                 return Ok(request);
             }
             catch (Exception ex)

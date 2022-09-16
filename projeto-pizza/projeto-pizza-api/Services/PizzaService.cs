@@ -19,10 +19,13 @@ namespace projeto_pizza_api.Services
 
         public int Add(PizzaPostDto pizzaPostDto)
         {
-            var model = new PizzaModel { Descricao = pizzaPostDto.Descricao, Valor = pizzaPostDto.Valor };
-            _pizzaRepository.Add(model);
+            if (pizzaPostDto.Descricao.Length <= 5)
+            {
+                throw new Exception("Pizza com poucos caracteres");
+            }
 
-            return model.Id;
+            var model = new PizzaModel { Descricao = pizzaPostDto.Descricao, Valor = pizzaPostDto.Valor };
+            return _pizzaRepository.Add(model);
         }
 
         public bool Delete(int id)
